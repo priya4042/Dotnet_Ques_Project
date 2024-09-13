@@ -555,13 +555,13 @@ margin-top: 20px;
 }
 
 .new-card {
-    background: #fff;
+    background: #cbe9e4;
     border: 1px solid #ddd;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    width: calc(33% - 20px); /* Adjust width based on the number of cards per row */
+    width: calc(16% - 20px); /* Adjust width based on the number of cards per row */
 }
 
 .new-card img {
@@ -633,7 +633,7 @@ margin-top: 20px;
         .contact-form {
             max-width: 700px;
             margin: 0 auto;
-            background: #eaeddd;
+            background: #4a5454;
             border-radius: 10px;
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
             padding: 30px;
@@ -651,7 +651,7 @@ margin-top: 20px;
         .contact-form textarea {
             width: calc(100% - 30px);
             padding: 15px;
-            margin: 10px 15px;
+            margin: 10px -7px;
             border: 2px solid #ddd;
             border-radius: 8px;
             font-size: 1em;
