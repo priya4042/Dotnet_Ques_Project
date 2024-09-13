@@ -1,0 +1,2253 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQL, WebAPI, ASP.NET, MVC, and Core Topics</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #91b4b4;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+    font-family: Arial, sans-serif;
+    background-color: #91b4b4;
+    margin: 0;
+    padding: 0;
+}
+
+
+nav {
+    background-color: #525a63;
+    color: #fff;
+    padding: 10px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    height: 53px;
+}
+
+nav .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+}
+
+nav ul li {
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+nav ul li a:hover {
+    text-decoration: underline;
+}
+
+.search-bar {
+    margin-left: 20px;
+}
+
+.search-bar input {
+    padding: 5px;
+    border-radius: 4px;
+    border: none;
+}
+
+.search-bar button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #153e69;
+    color: #fff;
+    cursor: pointer;
+}
+
+.search-bar button:hover {
+    background-color: #021933;
+}
+
+/* Hamburger menu */
+.hamburger {
+    display: none;
+    font-size: 24px;
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+}
+
+/* Sidebar styles */
+.sidebar {
+    position: fixed;
+    top: 0;
+    right: -250px;
+    width: 201px;
+    height: 100%;
+    background-color: #525a63;
+    color: #fff;
+    transition: right 0.3s ease;
+    z-index: 1000;
+    padding: 20px;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    margin: 20px 0;
+}
+
+.sidebar ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.sidebar ul li a:hover {
+    text-decoration: underline;
+}
+
+/* Close button */
+.close-btn {
+    font-size: 24px;
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    float: right;
+}
+
+/* Display hamburger button on small screens */
+@media (max-width: 768px) {
+    .nav-links {
+        display: none;
+    }
+
+    .hamburger {
+        display: block;
+    }
+}
+
+.sidebar.show {
+    right: 0;
+}
+
+
+        h1 {
+            color: #ffffff;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .section {
+            background-color: #53696d;
+            padding: 15px;
+            margin: 10px auto;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 1200px;
+        }
+
+        .section h2 {
+            cursor: pointer;
+            color: #ffffff;
+            margin-top: 0;
+        }
+
+        .cards-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .card {
+            background-color: #d0e1e0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            width: 250px;
+            height: 150px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .card p {
+            padding: 8px;
+            margin: 0;
+            font-size: 14px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .card a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .card a:hover {
+            text-decoration: underline;
+        }
+
+        /* Modal container */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+            /* Slightly darker background */
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.3s ease;
+            /* Smooth fade-in effect */
+        }
+
+        /* Modal content */
+        .modal-content {
+            background-color: #a5dfdf;
+            margin: 10% auto;
+            padding: 20px;
+            border-radius: 12px;
+            width: 80%;
+            max-width: 600px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+            /* Smooth slide-in effect */
+            transform: scale(0.8);
+            /* Initial scale for animation */
+        }
+
+        .modal-content img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        /* Modal close button */
+        .modal-close {
+            color: #333;
+            float: right;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s ease, transform 0.3s ease;
+            /* Smooth hover effect */
+        }
+
+        .modal-close:hover,
+        .modal-close:focus {
+            color: #b4e4e1;
+            /* Red color on hover */
+            transform: scale(1.2);
+            /* Slightly larger on hover */
+        }
+
+        /* Display modal with animation */
+        .modal.show {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content.show {
+            transform: scale(1);
+            /* Scale to normal size */
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(0.8);
+            }
+
+            to {
+                transform: scale(1);
+            }
+        }
+
+        /* Applying animations */
+        .modal.show {
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content.show {
+            animation: scaleIn 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .modal-content {
+                width: 95%;
+            }
+        }
+
+        .section-content {
+            display: none;
+            /* Hide sections by default */
+            margin-top: 10px;
+        }
+
+        .section-content.active {
+            display: block;
+            /* Show section when active */
+        }
+
+        .section h2 {
+            cursor: pointer;
+            margin: 0;
+        }
+
+        /* Highlight the active link */
+        .active-link {
+            background-color: #252729;
+            padding: 5px;
+            border-radius: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .cards-container {
+                flex-direction: column;
+            }
+
+            .card {
+                width: 100%;
+                height: auto;
+            }
+
+            .modal-content {
+                width: 95%;
+            }
+        }
+
+      /* Carousel container */
+.carousel-container {
+    position: relative;
+    width: 100%;
+    max-width: 1200px;
+    margin: 20px auto;
+    overflow: hidden;
+}
+
+/* Carousel container */
+.carousel-container {
+    position: relative;
+    width: 100%;
+    max-width: 1200px;
+    margin: 20px auto;
+    overflow: hidden;
+}
+
+/* Carousel */
+.carousel {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+/* Slide container */
+.carousel-slide {
+    flex: 0 0 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center; /* Center content horizontally */
+    align-items: center; /* Center content vertically */
+}
+
+/* Cards */
+.cards {
+    background-color: #d0e1e0;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    width: 994px; /* Fixed width */
+    height: 334px; /* Fixed height for the card */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    margin: 0 15px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* Hide overflow to ensure no content spills out */
+    transition: transform 0.3s ease-in-out; /* Animation on hover */
+}
+
+/* Card image */
+.card-image {
+    width: 100%; /* Full width of the card */
+    height: 60%; /* Adjust height to fit within the card */
+    object-fit: cover; /* Cover the container, cropping if necessary */
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+/* Card content */
+.card-content {
+    padding: 15px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center content vertically */
+    text-align: center; /* Center text horizontally */
+    overflow: hidden; /* Hide overflow text if needed */
+}
+
+/* Card headings and paragraphs */
+.card-content h3 {
+    margin: 10px 0; /* Adjust margin as needed */
+    font-size: 1.2em; /* Responsive font size */
+}
+
+.card-content p {
+    font-size: 0.9em; /* Responsive font size */
+    line-height: 1.4; /* Adjust line height for readability */
+    overflow: hidden; /* Hide overflow text if needed */
+    text-overflow: ellipsis; /* Add ellipsis if text overflows */
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* Limit the number of lines for the paragraph */
+    -webkit-box-orient: vertical;
+}
+
+/* Hover effect for cards */
+.cards:hover {
+    transform: scale(1.05);
+}
+
+/* Carousel buttons */
+.carousel-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 1000;
+    font-size: 20px;
+}
+
+.carousel-button.prev {
+    left: 10px;
+}
+
+.carousel-button.next {
+    right: 10px;
+}
+
+/* Responsive design */
+@media (max-width: 1200px) {
+    .cards {
+        width: 80%; /* Adjust width for medium screens */
+        height: 300px; /* Adjust height proportionally */
+    }
+
+    .card-image {
+        height: 55%; /* Adjust image height */
+    }
+
+    .card-content h3 {
+        font-size: 1.1em; /* Adjust font size */
+    }
+
+    .card-content p {
+        font-size: 0.85em; /* Adjust font size */
+    }
+}
+
+@media (max-width: 768px) {
+    .cards {
+        width: 90%; /* Adjust width for smaller screens */
+        height: 250px; /* Adjust height for smaller screens */
+    }
+    
+    .card-image {
+        height: 50%; /* Adjust image height */
+    }
+
+    .card-content h3 {
+        font-size: 1em; /* Adjust font size */
+    }
+
+    .card-content p {
+        font-size: 0.8em; /* Adjust font size */
+    }
+}
+
+@media (max-width: 480px) {
+    .cards {
+        width: 100%; /* Full width for very small screens */
+        height: 200px; /* Adjust height for very small screens */
+    }
+    
+    .card-image {
+        height: 45%; /* Adjust image height */
+    }
+
+    .card-content h3 {
+        font-size: 0.9em; /* Adjust font size */
+    }
+
+    .card-content p {
+        font-size: 0.75em; /* Adjust font size */
+    }
+}
+
+.heading {
+    text-align: center;
+    color: #ffffff;
+    margin-top: 20px;
+}
+
+
+    </style>
+</head>
+
+<body>
+
+
+    <nav>
+        <div class="container">
+            <!-- Hamburger menu for mobile -->
+            <span class="hamburger" onclick="toggleSidebar()">&#9776;</span>
+            
+            <!-- Normal desktop navigation -->
+            <ul class="nav-links">
+                <li><a href="#sql">MS SQL</a></li>
+                <li><a href="#webapi">WebAPI</a></li>
+                <li><a href="#aspnet">ASP.NET</a></li>
+                <li><a href="#mvc">ASP.NET MVC</a></li>
+            </ul>
+
+            <!-- Search bar -->
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="Search sections...">
+                <button>Search</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sidebar for mobile menu -->
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="closeSidebar()">&times;</button>
+        <ul>
+            <li><a href="#sql" onclick="closeSidebar()">MS SQL</a></li>
+            <li><a href="#webapi" onclick="closeSidebar()">WebAPI</a></li>
+            <li><a href="#aspnet" onclick="closeSidebar()">ASP.NET</a></li>
+            <li><a href="#mvc" onclick="closeSidebar()">ASP.NET MVC</a></li>
+        </ul>
+    </div>
+
+    <!-- Overlay for mobile -->
+    <div class="navbar-overlay" id="navbarOverlay" onclick="closeSidebar()"></div>
+    <!-- Carousel Container -->
+    <div class="carousel-container">
+        <div class="carousel">
+            <div class="carousel-slide">
+                <div class="cards">
+                    <img src="./Image/Sql.png" alt="SQL" class="card-image">
+                    <div class="card-content">
+                        <h3>SQL</h3>
+                        <p>SQL (Structured Query Language) is a standard programming language for managing and
+                            manipulating relational databases. Learn how to write queries, design schemas, and handle
+                            transactions.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-slide">
+                <div class="cards">
+                    <img src="./Image/WebApi.png" alt="WebAPI" class="card-image">
+                    <div class="card-content">
+                        <h3>WebAPI</h3>
+                        <p>WebAPI is a framework for building HTTP services that can be consumed by a wide range of
+                            clients. Explore how to create RESTful services, handle HTTP requests, and use various
+                            authentication methods.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-slide">
+                <div class="cards">
+                    <img src="./Image/aspdotnet.png" alt="ASP.NET" class="card-image">
+                    <div class="card-content">
+                        <h3>ASP.NET</h3>
+                        <p>ASP.NET is a framework for building dynamic web applications. Learn about MVC, WebForms, and
+                            Razor Pages for creating robust web solutions.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-slide">
+                <div class="cards">
+                    <img src="./Image/AspDotnetMVC.png" alt="MVC" class="card-image">
+                    <div class="card-content">
+                        <h3>MVC</h3>
+                        <p>MVC (Model-View-Controller) is a design pattern for building web applications. Understand how
+                            to separate concerns in your application and follow best practices for scalable development.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-slide">
+                <div class="cards">
+                    <img src="./Image/Aspdotnetcoremvc.png" alt=".NET Core" class="card-image">
+                    <div class="card-content">
+                        <h3>.NET Core</h3>
+                        <p>.NET Core is a cross-platform, open-source framework for building modern applications.
+                            Discover how to develop and deploy applications across different platforms.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button class="carousel-button prev">❮</button>
+        <button class="carousel-button next">❯</button>
+    </div>
+
+    <!-- Heading below the carousel -->
+    <h1 class="heading">SQL, WebAPI, ASP.NET, MVC, and Core</h1>
+
+
+    <div id="sql" class="section">
+        <h2 onclick="toggleSection('sql-content')"> 1. MS SQL <i class="fas fa-database"></i></h2>
+        <div id="sql-content" class="section-content">
+            <div class="cards-container">
+                <div class="card">
+                    <p><strong>What is SQL?</strong></p>
+                    <p>SQL (Structured Query Language) is a standard language for managing and manipulating relational
+                        databases.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal1">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is a primary key in SQL?</strong></p>
+                    <p>A primary key is a unique identifier for a record in a table, ensuring uniqueness and non-null
+                        values.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal2">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is a foreign key?</strong></p>
+                    <p>A foreign key is a column or set of columns in a table that refers to the primary key in another
+                        table.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal3">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is an index in SQL?</strong></p>
+                    <p>An index improves the speed of data retrieval operations on a table at the cost of additional
+                        space and maintenance overhead.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal4">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is a JOIN in SQL?</strong></p>
+                    <p>JOINs are used to combine rows from two or more tables based on a related column between them.
+                    </p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal5">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is a subquery in SQL?</strong></p>
+                    <p>A subquery is a query nested inside another query that provides a result set used by the outer
+                        query.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal6">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is the difference between UNION and UNION ALL?</strong></p>
+                    <p>UNION combines the results of two queries and removes duplicates, while UNION ALL includes
+                        duplicates.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal7">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is a stored procedure?</strong></p>
+                    <p>A stored procedure is a precompiled collection of SQL statements that can be executed as a single
+                        unit.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal8">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is the purpose of the GROUP BY clause?</strong></p>
+                    <p>GROUP BY is used to group rows that have the same values in specified columns into aggregate
+                        data.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal9">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is the difference between an INNER JOIN and an OUTER JOIN?</strong></p>
+                    <p>INNER JOIN returns rows with matching values in both tables, while OUTER JOIN returns rows with
+                        matching values and additional rows from one or both tables where no match is found.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal10">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is a view in SQL?</strong></p>
+                    <p>A view is a virtual table based on the result of a SELECT query that can simplify complex queries
+                        and provide a layer of abstraction.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal11">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>How do you handle NULL values in SQL?</strong></p>
+                    <p>NULL values in SQL represent missing or unknown data. Functions like ISNULL(), COALESCE(), or
+                        NULLIF() can handle NULL values.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal12">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is the difference between a DELETE and a TRUNCATE statement?</strong></p>
+                    <p>DELETE removes rows from a table based on a condition and logs individual row deletions, while
+                        TRUNCATE removes all rows from a table and is generally faster with less logging.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal13">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is normalization?</strong></p>
+                    <p>Normalization is the process of organizing data in a database to reduce redundancy and improve
+                        data integrity.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal14">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What are SQL constraints? Can you name a few?</strong></p>
+                    <p>SQL constraints enforce rules on data columns to ensure data integrity. Examples include NOT
+                        NULL, UNIQUE, CHECK, and DEFAULT constraints.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal15">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is a transaction in SQL?</strong></p>
+                    <p>A transaction is a sequence of operations performed as a single logical unit of work that ensures
+                        data integrity. It follows the ACID properties: Atomicity, Consistency, Isolation, and
+                        Durability.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal16">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>How do you optimize SQL queries for performance?</strong></p>
+                    <p>Optimizing SQL queries involves indexing, using efficient joins, avoiding unnecessary columns,
+                        and ensuring proper query structure.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal17">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is a CTE (Common Table Expression)?</strong></p>
+                    <p>A CTE is a temporary result set defined within a query that can be referenced within that query,
+                        making it useful for complex queries and recursion.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal18">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is the purpose of the HAVING clause?</strong></p>
+                    <p>HAVING is used to filter records after an aggregation is performed by the GROUP BY clause, unlike
+                        WHERE which filters before aggregation.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal19">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is data integrity and how is it maintained in SQL?</strong></p>
+                    <p>Data integrity ensures the accuracy and consistency of data. It is maintained through
+                        constraints, triggers, and proper database design.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal20">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What are triggers in SQL?</strong></p>
+                    <p>Triggers are special types of stored procedures that automatically execute or fire in response to
+                        certain events on a table or view, such as INSERT, UPDATE, or DELETE operations.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal21">Read More...</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="webapi" class="section">
+        <h2 onclick="toggleSection('webapi-content')">2. WebAPI</h2>
+        <div id="webapi-content" class="section-content">
+            <div class="cards-container">
+                <div class="card">
+                    <p><strong>What is a Web API?</strong></p>
+                    <p>A Web API is a set of HTTP-based services that allow different software systems to communicate
+                        with each other.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal22">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is REST?</strong></p>
+                    <p>REST (Representational State Transfer) is an architectural style for designing networked
+                        applications using HTTP requests.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal23">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is a route in Web API?</strong></p>
+                    <p>Routes define how requests are mapped to specific controllers and actions in a Web API.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal24">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is an HTTP method?</strong></p>
+                    <p>HTTP methods like GET, POST, PUT, and DELETE define the actions that can be performed on a
+                        resource in a Web API.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal25">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is a model in Web API?</strong></p>
+                    <p>Models represent the data structure that the Web API will handle, such as request and response
+                        data.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal26">Read More...</a></p>
+                </div>
+                <!-- New Modals -->
+                <div class="card">
+                    <p><strong>What is the purpose of the HttpClient class?</strong></p>
+                    <p>The HttpClient class is used to send HTTP requests and receive HTTP responses from a Web API.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal27">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is a controller in Web API?</strong></p>
+                    <p>A controller handles incoming HTTP requests, processes them, and returns a response to the
+                        client.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal28">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What are attributes in Web API?</strong></p>
+                    <p>Attributes are used to define the routing, binding, and behavior of controllers and actions in
+                        Web API.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal29">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is dependency injection?</strong></p>
+                    <p>Dependency injection is a design pattern used to achieve Inversion of Control (IoC) by providing
+                        dependencies to objects rather than having the objects create them.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal30">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is serialization?</strong></p>
+                    <p>Serialization is the process of converting an object into a format (e.g., JSON, XML) that can be
+                        easily transmitted or stored.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal31">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is deserialization?</strong></p>
+                    <p>Deserialization is the process of converting serialized data back into an object.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal32">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is JSON?</strong></p>
+                    <p>JSON (JavaScript Object Notation) is a lightweight data-interchange format that is easy for
+                        humans to read and write and easy for machines to parse and generate.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal33">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is XML?</strong></p>
+                    <p>XML (Extensible Markup Language) is a markup language used to encode documents in a format that
+                        is both human-readable and machine-readable.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal34">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is Swagger?</strong></p>
+                    <p>Swagger is a framework for API documentation that provides a user interface to interact with API
+                        endpoints.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal35">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is OAuth?</strong></p>
+                    <p>OAuth is an open standard for authorization that allows third-party services to exchange
+                        information without sharing credentials.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal36">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is CORS?</strong></p>
+                    <p>CORS (Cross-Origin Resource Sharing) is a security feature that allows or restricts resources
+                        from being requested from another domain.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal37">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is the difference between PUT and POST?</strong></p>
+                    <p>PUT is used to update an existing resource or create a new resource if it doesn't exist, while
+                        POST is used to create a new resource.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal38">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is a status code in Web API?</strong></p>
+                    <p>Status codes are three-digit numbers in HTTP responses that indicate the result of the request,
+                        such as 200 OK or 404 Not Found.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal39">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is a Web API versioning?</strong></p>
+                    <p>API versioning is the process of managing changes to an API over time while ensuring that
+                        existing clients can continue to work with older versions.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal40">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is the difference between an action and an action result?</strong></p>
+                    <p>An action is a method in a controller that handles HTTP requests, while an action result is the
+                        outcome of the action, such as a view or JSON data.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal41">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is API documentation?</strong></p>
+                    <p>API documentation provides detailed information about how to use the API, including endpoints,
+                        request and response formats, and examples.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal42">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is an API endpoint?</strong></p>
+                    <p>An API endpoint is a specific URL where a web service can be accessed by an API client to perform
+                        operations like GET, POST, PUT, or DELETE.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal43">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is a Web API resource?</strong></p>
+                    <p>A resource is an object or piece of information that can be accessed and manipulated through the
+                        API.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal44">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is a Web API client?</strong></p>
+                    <p>A Web API client is an application or tool that interacts with the Web API by sending requests
+                        and receiving responses.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal45">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is the role of middleware in Web API?</strong></p>
+                    <p>Middleware components process requests and responses, handling tasks such as authentication,
+                        logging, and error handling.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal46">Read More...</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="aspnet" class="section">
+        <h2 onclick="toggleSection('aspnet-content')">3. ASP.NET</h2>
+        <div id="aspnet-content" class="section-content">
+            <div class="cards-container">
+                <div class="card">
+                    <p><strong>What is ASP.NET?</strong></p>
+                    <p>ASP.NET is a web framework developed by Microsoft for building web applications and services.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal47">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is the difference between Web Forms and MVC?</strong></p>
+                    <p>Web Forms use a drag-and-drop interface and event-driven programming, while MVC
+                        (Model-View-Controller) separates concerns and provides more control over HTML output.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal48">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is a ViewState?</strong></p>
+                    <p>ViewState is used in Web Forms to preserve the state of controls between postbacks.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal49">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is a Master Page?</strong></p>
+                    <p>Master Pages allow for consistent layout and design across multiple pages in a web application.
+                    </p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal50">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is a Web.config file?</strong></p>
+                    <p>Web.config is an XML file used to configure settings for an ASP.NET application, such as
+                        connection strings and authentication.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal51">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is the difference between ASP.NET Web API and ASP.NET MVC?</strong></p>
+                    <p>ASP.NET Web API is designed for building HTTP services and is used to expose data to various
+                        clients, while ASP.NET MVC is used for building web applications with a focus on HTML and user
+                        interaction.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal52">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is a Routing in ASP.NET?</strong></p>
+                    <p>Routing is used to map incoming requests to the appropriate controllers and actions based on URL
+                        patterns.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal53">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is dependency injection in ASP.NET Core?</strong></p>
+                    <p>Dependency injection is a design pattern used to achieve Inversion of Control (IoC) by injecting
+                        dependencies into an object, promoting loose coupling and enhancing testability.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal54">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is an ActionResult?</strong></p>
+                    <p>ActionResult is a base class in ASP.NET MVC that represents the result of an action method,
+                        including types such as ViewResult, JsonResult, and RedirectResult.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal55">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What are Filters in ASP.NET MVC?</strong></p>
+                    <p>Filters are used to execute code before or after an action method runs, including authorization
+                        filters, action filters, result filters, and exception filters.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal56">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is Entity Framework?</strong></p>
+                    <p>Entity Framework is an ORM (Object-Relational Mapper) that provides a set of tools and services
+                        for working with databases in a .NET application using object-oriented programming.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal57">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is the difference between @Html.BeginForm and @Html.Form?</strong></p>
+                    <p>@Html.BeginForm generates an opening form tag with options for method, action, and other
+                        attributes, while @Html.Form is a helper method that does not include these options.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal58">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is Razor?</strong></p>
+                    <p>Razor is a markup syntax used in ASP.NET for creating dynamic web pages with C# and HTML. It
+                        allows for embedding C# code within HTML to generate content.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal59">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is an ASP.NET Core Middleware?</strong></p>
+                    <p>Middleware components are used to handle requests and responses in ASP.NET Core applications.
+                        They form the request pipeline and can perform tasks such as authentication, logging, and
+                        exception handling.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal60">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is Tag Helper in ASP.NET Core?</strong></p>
+                    <p>Tag Helpers are used to add server-side functionality to HTML elements, making it easier to
+                        generate dynamic HTML content and perform actions like form submission and validation.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal61">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is a Partial View?</strong></p>
+                    <p>A Partial View is a reusable view component that can be used within other views to encapsulate
+                        part of a page's UI.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal62">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is the difference between a View and a Partial View?</strong></p>
+                    <p>A View represents a complete page, while a Partial View represents a portion of a page that can
+                        be reused within different views.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal63">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is ASP.NET Core Identity?</strong></p>
+                    <p>ASP.NET Core Identity is a membership system that provides functionality for user authentication
+                        and authorization in ASP.NET Core applications.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal64">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is a Controller in ASP.NET MVC?</strong></p>
+                    <p>A Controller is a class that handles user requests, interacts with the model, and returns a
+                        response. It acts as the intermediary between the View and the Model.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal65">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What are View Components?</strong></p>
+                    <p>View Components are reusable components in ASP.NET Core that can be used to render content within
+                        views. They are similar to Partial Views but provide additional functionality and can have their
+                        own logic and data.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal66">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is the purpose of appsettings.json?</strong></p>
+                    <p>appsettings.json is a configuration file used in ASP.NET Core to store application settings, such
+                        as connection strings and environment-specific configurations.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal67">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is Dependency Injection in ASP.NET Core?</strong></p>
+                    <p>Dependency Injection is a technique used to achieve Inversion of Control by injecting
+                        dependencies into services rather than having them create their own dependencies. It promotes
+                        loose coupling and enhances testability.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal68">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is the purpose of the Startup class in ASP.NET Core?</strong></p>
+                    <p>The Startup class is used to configure services and the application request pipeline in an
+                        ASP.NET Core application. It includes methods like ConfigureServices and Configure to set up the
+                        application's services and middleware.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal69">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is the role of a ViewModel?</strong></p>
+                    <p>A ViewModel is a class that provides the data needed by a view, combining data from multiple
+                        sources into a single model that the view can use to render the UI.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal70">Read More...</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="mvc" class="section">
+        <h2 onclick="toggleSection('mvc-content')">4. ASP.NET MVC</h2>
+        <div id="mvc-content" class="section-content">
+            <div class="cards-container">
+                <div class="card">
+                    <p><strong>What is ASP.NET MVC?</strong></p>
+                    <p>ASP.NET MVC is a framework for building web applications using the Model-View-Controller pattern,
+                        promoting separation of concerns.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal16">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is a Controller?</strong></p>
+                    <p>A Controller handles user input and interactions, retrieves data from models, and returns a
+                        response.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal17">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is a View?</strong></p>
+                    <p>A View is responsible for rendering the UI and presenting data to the user.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal18">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is a Model?</strong></p>
+                    <p>A Model represents the application's data and business logic.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal19">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is Routing?</strong></p>
+                    <p>Routing maps URLs to Controllers and Actions, enabling user navigation within the application.
+                    </p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal20">Read More...</a></p>
+                </div>
+                <!-- Additional Questions -->
+                <div class="card">
+                    <p><strong>What is a Partial View in ASP.NET MVC?</strong></p>
+                    <p>A Partial View is a reusable component that can be included in other views to encapsulate part of
+                        the UI.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal71">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is the difference between HtmlHelper and Html.Partial in ASP.NET MVC?</strong></p>
+                    <p>HtmlHelper is used to create HTML elements with server-side code, while Html.Partial is used to
+                        render a partial view.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal72">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is Model Binding in ASP.NET MVC?</strong></p>
+                    <p>Model Binding is the process of mapping HTTP request data to action method parameters or model
+                        properties.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal73">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What are Action Filters in ASP.NET MVC?</strong></p>
+                    <p>Action Filters are used to execute code before or after an action method executes, such as
+                        logging or authorization.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal74">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is a ViewModel?</strong></p>
+                    <p>A ViewModel is a class that provides data from multiple sources to the view and is used to create
+                        a strong, type-safe representation of data.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal75">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is the purpose of the `@Html.RenderAction` method?</strong></p>
+                    <p>The `@Html.RenderAction` method is used to invoke an action method from a view and render its
+                        result, often used for rendering partial views.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal76">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is a Route Constraint in ASP.NET MVC?</strong></p>
+                    <p>A Route Constraint is used to restrict the routes based on a specific condition, such as a
+                        parameter value or data type.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal77">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What are the different types of Action Results in ASP.NET MVC?</strong></p>
+                    <p>Common Action Results include ViewResult, PartialViewResult, RedirectToRouteResult, JsonResult,
+                        and ContentResult.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal78">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>How does ASP.NET MVC handle errors?</strong></p>
+                    <p>ASP.NET MVC handles errors using Exception Filters, custom error pages, and global error handling
+                        in the Application_Error method.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal79">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is the purpose of the `ViewBag` in ASP.NET MVC?</strong></p>
+                    <p>ViewBag is a dynamic object that allows passing data from a controller to a view without needing
+                        a strongly-typed model.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal80">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is `TempData` in ASP.NET MVC?</strong></p>
+                    <p>TempData is used to store data that needs to be available for a single request, often used for
+                        redirect scenarios.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal81">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is `ViewData` in ASP.NET MVC?</strong></p>
+                    <p>ViewData is a dictionary used to pass data from a controller to a view, accessible using string
+                        keys.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal82">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is `ActionLink` in ASP.NET MVC?</strong></p>
+                    <p>ActionLink is a helper method used to create hyperlinks that navigate to specific action methods
+                        within controllers.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal83">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is the `HttpPost` attribute used for in ASP.NET MVC?</strong></p>
+                    <p>The `HttpPost` attribute specifies that an action method should only handle POST requests.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal84">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is the difference between `Html.BeginForm` and `Html.Form`?</strong></p>
+                    <p>`Html.BeginForm` generates an opening form tag with attributes for method, action, and other
+                        settings, while `Html.Form` is used less commonly and does not offer such extensive
+                        configuration.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal85">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What are `HtmlHelper` methods in ASP.NET MVC?</strong></p>
+                    <p>HtmlHelper methods are used to generate HTML elements, such as input fields, labels, and forms,
+                        within views.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal86">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is the purpose of `@Html.RenderPartial` in ASP.NET MVC?</strong></p>
+                    <p>`@Html.RenderPartial` is used to render a partial view directly within a view, providing better
+                        performance compared to `@Html.Partial`.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal87">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is a `ViewComponent` in ASP.NET MVC?</strong></p>
+                    <p>A ViewComponent is a reusable, encapsulated component with its own logic that renders a part of
+                        the UI, similar to a partial view but with additional capabilities.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal88">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is `ModelState` in ASP.NET MVC?</strong></p>
+                    <p>ModelState is a collection of state information about the model, including validation errors,
+                        used to keep track of errors and values submitted by the user.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal89">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is the `IActionFilter` interface?</strong></p>
+                    <p>The `IActionFilter` interface allows you to define code that executes before or after an action
+                        method executes, providing a way to implement custom filtering logic.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal90">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is `@Html.EditorFor` used for in ASP.NET MVC?</strong></p>
+                    <p>`@Html.EditorFor` generates an HTML input element for a model property based on its data type and
+                        metadata, making it easier to create forms.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal91">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is the `@Html.DisplayFor` method?</strong></p>
+                    <p>`@Html.DisplayFor` renders the value of a model property using a default or custom display
+                        template, providing a way to display data in views.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal92">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is the purpose of the `@Model` keyword?</strong></p>
+                    <p>`@Model` represents the strongly-typed model passed to a view, allowing access to model
+                        properties and methods in the view.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal93">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is the `ActionResult` class?</strong></p>
+                    <p>The `ActionResult` class is the base class for all action results, providing a way to return
+                        different types of responses from an action method.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal94">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is `Url.Action` in ASP.NET MVC?</strong></p>
+                    <p>`Url.Action` generates a URL for a specified action method, making it easier to create links to
+                        different parts of the application.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal95">Read More...</a></p>
+                </div>
+                <div class="card">
+                    <p><strong>What is the role of `Html.BeginForm`?</strong></p>
+                    <p>`Html.BeginForm` generates the opening tag of an HTML form and is used to specify the action and
+                        method for the form submission.</p>
+                    <p><a href="#" class="modal-trigger" data-modal="modal96">Read More...</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <div id="modal1" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" data-modal="modal1">&times;</span>
+            <h2>What is SQL?</h2>
+            <p>SQL (Structured Query Language) is a standard language for managing and manipulating relational
+                databases.</p>
+        </div>
+    </div>
+    <div id="modal2" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" data-modal="modal2">&times;</span>
+            <h2>What is a primary key in SQL?</h2>
+            <p>A primary key is a unique identifier for a record in a table, ensuring uniqueness and non-null values.
+            </p>
+        </div>
+    </div>
+    <div id="modal3" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" data-modal="modal3">&times;</span>
+            <h2>What is a foreign key?</h2>
+            <p>A foreign key is a column or set of columns in a table that refers to the primary key in another table.
+            </p>
+        </div>
+    </div>
+    <div id="modal4" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" data-modal="modal4">&times;</span>
+            <h2>What is an index in SQL?</h2>
+            <p>An index improves the speed of data retrieval operations on a table at the cost of additional space and
+                maintenance overhead.</p>
+        </div>
+    </div>
+    <div id="modal5" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" data-modal="modal5">&times;</span>
+            <h2>What is a JOIN in SQL?</h2>
+            <p>JOINs are used to combine rows from two or more tables based on a related column between them.</p>
+        </div>
+    </div>
+    <div id="modal6" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" data-modal="modal6">&times;</span>
+            <h2>What is a subquery in SQL?</h2>
+            <p>A subquery is a query nested inside another query that provides a result set used by the outer query.</p>
+        </div>
+    </div>
+    <div id="modal7" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" data-modal="modal7">&times;</span>
+            <h2>What is the difference between UNION and UNION ALL?</h2>
+            <p>UNION combines the results of two queries and removes duplicates, while UNION ALL includes duplicates.
+            </p>
+        </div>
+    </div>
+    <div id="modal8" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" data-modal="modal8">&times;</span>
+            <h2>What is a stored procedure?</h2>
+            <p>A stored procedure is a precompiled collection of SQL statements that can be executed as a single unit.
+            </p>
+        </div>
+    </div>
+    <div id="modal9" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" data-modal="modal9">&times;</span>
+            <h2>What is the purpose of the GROUP BY clause?</h2>
+            <p>GROUP BY is used to group rows that have the same values in specified columns into aggregate data.</p>
+        </div>
+    </div>
+    <div id="modal10" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" data-modal="modal10">&times;</span>
+            <h2>What is the difference between an INNER JOIN and an OUTER JOIN?</h2>
+            <p>INNER JOIN returns rows with matching values in both tables, while OUTER JOIN returns rows with matching
+                values and additional rows from one or both tables where no match is found.</p>
+        </div>
+    </div>
+    <div id="modal11" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" data-modal="modal11">&times;</span>
+            <h2>What is a view in SQL?</h2>
+            <p>A view is a virtual table based on the result of a SELECT query that can simplify complex queries and
+                provide a layer of abstraction.</p>
+        </div>
+    </div>
+    <div id="modal12" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" data-modal="modal12">&times;</span>
+            <h2>How do you handle NULL values in SQL?</h2>
+            <p>NULL values in SQL represent missing or unknown data. Functions like ISNULL(), COALESCE(), or NULLIF()
+                can handle NULL values.</p>
+        </div>
+    </div>
+    <div id="modal13" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" data-modal="modal13">&times;</span>
+            <h2>What is the difference between a DELETE and a TRUNCATE statement?</h2>
+            <p>DELETE removes rows from a table based on a condition and logs individual row deletions, while TRUNCATE
+                removes all rows from a table and is generally faster with less logging.</p>
+        </div>
+    </div>
+    <div id="modal14" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" data-modal="modal14">&times;</span>
+            <h2>What is normalization?</h2>
+            <p>Normalization is the process of organizing data in a database to reduce redundancy and improve data
+                integrity.</p>
+        </div>
+    </div>
+    <div id="modal15" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" data-modal="modal15">&times;</span>
+            <h2>What are SQL constraints? Can you name a few?</h2>
+            <p>SQL constraints enforce rules on data columns to ensure data integrity. Examples include NOT NULL,
+                UNIQUE, CHECK, and DEFAULT constraints.</p>
+        </div>
+    </div>
+    <div id="modal16" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" data-modal="modal16">&times;</span>
+            <h2>What is a transaction in SQL?</h2>
+            <p>A transaction is a sequence of operations performed as a single logical unit of work that ensures data
+                integrity. It follows the ACID properties: Atomicity, Consistency, Isolation, and Durability.</p>
+        </div>
+    </div>
+    <div id="modal17" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" data-modal="modal17">&times;</span>
+            <h2>How do you optimize SQL queries for performance?</h2>
+            <p>Optimizing SQL queries involves indexing, using efficient joins, avoiding unnecessary columns, and
+                ensuring proper query structure.</p>
+        </div>
+    </div>
+    <div id="modal18" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" data-modal="modal18">&times;</span>
+            <h2>What is a CTE (Common Table Expression)?</h2>
+            <p>A CTE is a temporary result set defined within a query that can be referenced within that query, making
+                it useful for complex queries and recursion.</p>
+        </div>
+    </div>
+    <div id="modal19" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" data-modal="modal19">&times;</span>
+            <h2>What is the purpose of the HAVING clause?</h2>
+            <p>HAVING is used to filter records after an aggregation is performed by the GROUP BY clause, unlike WHERE
+                which filters before aggregation.</p>
+        </div>
+    </div>
+    <div id="modal20" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" data-modal="modal20">&times;</span>
+            <h2>What is data integrity and how is it maintained in SQL?</h2>
+            <p>Data integrity ensures the accuracy and consistency of data. It is maintained through constraints,
+                triggers, and proper database design.</p>
+        </div>
+    </div>
+    <div id="modal21" class="modal">
+        <div class="modal-content">
+            <span class="modal-close" data-modal="modal21">&times;</span>
+            <h2>What are triggers in SQL?</h2>
+            <p>Triggers are special types of stored procedures that automatically execute or fire in response to certain
+                events on a table or view, such as INSERT, UPDATE, or DELETE operations.</p>
+        </div>
+    </div>
+
+
+    <!-- WEBAPI -->
+
+    <div id="modal22" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('modal22')">&times;</span>
+            <h2>What is a Web API?</h2>
+            <p>A Web API (Application Programming Interface) is a set of HTTP-based services that allow different
+                software systems to communicate with each other. It defines endpoints and data formats for interactions,
+                making it possible for clients to access server-side resources and perform operations.</p>
+        </div>
+    </div>
+    <div id="modal23" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('modal23')">&times;</span>
+            <h2>What is REST?</h2>
+            <p>REST (Representational State Transfer) is an architectural style for designing networked applications. It
+                uses HTTP requests to perform CRUD (Create, Read, Update, Delete) operations on resources. RESTful APIs
+                are stateless and use standard HTTP methods like GET, POST, PUT, and DELETE.</p>
+        </div>
+    </div>
+    <div id="modal24" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('modal24')">&times;</span>
+            <h2>What is a route in Web API?</h2>
+            <p>In Web API, routes define how HTTP requests are mapped to specific controllers and actions. Routes
+                specify the URL pattern that the API should handle and associate it with the appropriate logic to
+                process the request and generate a response.</p>
+        </div>
+    </div>
+    <div id="modal25" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('modal25')">&times;</span>
+            <h2>What is an HTTP method?</h2>
+            <p>HTTP methods define the actions that can be performed on a resource. Common HTTP methods include GET
+                (retrieve data), POST (create a new resource), PUT (update an existing resource), and DELETE (remove a
+                resource).</p>
+        </div>
+    </div>
+    <div id="modal26" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('modal26')">&times;</span>
+            <h2>What is a model in Web API?</h2>
+            <p>In Web API, a model represents the data structure that the API will handle. It defines the shape of data
+                for request and response payloads, ensuring that the data conforms to a specific format and is validated
+                properly.</p>
+        </div>
+    </div>
+    <!-- Continue with Modals for the new questions -->
+    <div id="modal27" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('modal27')">&times;</span>
+            <h2>What is the purpose of the HttpClient class?</h2>
+            <p>The HttpClient class is used to send HTTP requests and receive HTTP responses from a Web API. It provides
+                methods for making requests, handling responses, and managing connection settings.</p>
+        </div>
+    </div>
+    <div id="modal28" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('modal28')">&times;</span>
+            <h2>What is a controller in Web API?</h2>
+            <p>A controller in Web API is responsible for handling incoming HTTP requests, processing them, and
+                returning a response. It contains action methods that define how requests are handled and responses are
+                generated.</p>
+        </div>
+    </div>
+    <div id="modal29" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('modal29')">&times;</span>
+            <h2>What are attributes in Web API?</h2>
+            <p>Attributes in Web API are used to define routing, binding, and behavior of controllers and actions. They
+                provide metadata and configuration options, such as [HttpGet], [Route], and [Authorize], to control the
+                API's behavior.</p>
+        </div>
+    </div>
+    <div id="modal30" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('modal30')">&times;</span>
+            <h2>What is dependency injection?</h2>
+            <p>Dependency injection is a design pattern used to achieve Inversion of Control (IoC) by injecting
+                dependencies into an object rather than having the object create them. It promotes loose coupling and
+                improves testability.</p>
+        </div>
+    </div>
+    <div id="modal31" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('modal31')">&times;</span>
+            <h2>What is serialization?</h2>
+            <p>Serialization is the process of converting an object into a format, such as JSON or XML, that can be
+                easily transmitted or stored. It enables the exchange of data between different systems or persistence
+                in storage.</p>
+        </div>
+    </div>
+    <div id="modal32" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('modal32')">&times;</span>
+            <h2>What is deserialization?</h2>
+            <p>Deserialization is the process of converting serialized data back into an object. It reconstructs the
+                object from its stored format, allowing the data to be used within the application.</p>
+        </div>
+    </div>
+    <div id="modal33" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('modal33')">&times;</span>
+            <h2>What is JSON?</h2>
+            <p>JSON (JavaScript Object Notation) is a lightweight data-interchange format that is easy for humans to
+                read and write and easy for machines to parse and generate. It is commonly used for exchanging data
+                between a client and server.</p>
+        </div>
+    </div>
+    <div id="modal34" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('modal34')">&times;</span>
+            <h2>What is XML?</h2>
+            <p>XML (Extensible Markup Language) is a markup language used to encode documents in a format that is both
+                human-readable and machine-readable. It allows for the representation of complex data structures in a
+                hierarchical format.</p>
+        </div>
+    </div>
+    <div id="modal35" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('modal35')">&times;</span>
+            <h2>What is Swagger?</h2>
+            <p>Swagger is a framework for API documentation that provides a user interface to interact with API
+                endpoints. It allows developers to document and test their APIs interactively.</p>
+        </div>
+    </div>
+    <div id="modal36" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('modal36')">&times;</span>
+            <h2>What is OAuth?</h2>
+            <p>OAuth is an open standard for authorization that allows third-party services to exchange information
+                without sharing credentials. It is commonly used for granting access to APIs without exposing user
+                credentials.</p>
+        </div>
+    </div>
+    <div id="modal37" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('modal37')">&times;</span>
+            <h2>What is CORS?</h2>
+            <p>CORS (Cross-Origin Resource Sharing) is a security feature implemented by browsers to prevent requests
+                from one origin (domain) from being made to a different origin without proper permissions. It allows for
+                controlled access to resources across different domains.</p>
+        </div>
+    </div>
+    <div id="modal38" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('modal38')">&times;</span>
+            <h2>What is the difference between PUT and POST?</h2>
+            <p>PUT is used to update an existing resource or create a new resource if it doesn't exist, while POST is
+                used to create a new resource. PUT is idempotent, meaning repeated requests will have the same effect,
+                whereas POST is not necessarily idempotent.</p>
+        </div>
+    </div>
+    <div id="modal39" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('modal39')">&times;</span>
+            <h2>What is a status code in Web API?</h2>
+            <p>Status codes are three-digit numbers in HTTP responses that indicate the result of the request. Common
+                status codes include 200 (OK), 404 (Not Found), and 500 (Internal Server Error).</p>
+        </div>
+    </div>
+    <div id="modal40" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('modal40')">&times;</span>
+            <h2>What is the role of middleware in Web API?</h2>
+            <p>Middleware components process requests and responses, handling tasks such as authentication, logging, and
+                error handling. They are used to add custom logic to the request pipeline.</p>
+        </div>
+    </div>
+    <div id="modal41" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('modal41')">&times;</span>
+            <h2>What is API versioning?</h2>
+            <p>API versioning is the practice of managing different versions of an API to maintain compatibility with
+                clients as the API evolves. It allows for gradual updates and changes without breaking existing clients.
+            </p>
+        </div>
+    </div>
+    <div id="modal42" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('modal42')">&times;</span>
+            <h2>What is a Web API endpoint?</h2>
+            <p>An endpoint in a Web API is a URL where the API can be accessed and interacted with. Each endpoint
+                corresponds to a specific resource or operation in the API.</p>
+        </div>
+    </div>
+    <div id="modal43" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('modal43')">&times;</span>
+            <h2>What is rate limiting in Web API?</h2>
+            <p>Rate limiting is a technique used to control the number of requests a client can make to an API within a
+                specified time period. It helps prevent abuse and ensures fair use of API resources.</p>
+        </div>
+    </div>
+    <div id="modal44" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('modal44')">&times;</span>
+            <h2>What is API throttling?</h2>
+            <p>API throttling is the practice of limiting the rate at which requests can be processed by an API. It
+                helps prevent overloading the server and ensures the stability and performance of the API.</p>
+        </div>
+    </div>
+    <div id="modal45" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('modal45')">&times;</span>
+            <h2>What is the purpose of API documentation?</h2>
+            <p>API documentation provides detailed information about how to use an API, including its endpoints, request
+                and response formats, and available methods. It helps developers understand how to integrate with the
+                API and ensures consistent use.</p>
+        </div>
+    </div>
+    <div id="modal46" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('modal46')">&times;</span>
+            <h2>What is OAuth?</h2>
+            <p>OAuth (Open Authorization) is an open standard for authorization that allows third-party services to
+                exchange information without sharing credentials. It is commonly used for granting access to APIs
+                without exposing user credentials.</p>
+        </div>
+    </div>
+
+
+    <!-- ASP.NET -->
+    <!-- Modals -->
+    <div id="modal47" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('modal47')">&times;</span>
+            <h2>What is ASP.NET?</h2>
+            <p>ASP.NET is a web framework developed by Microsoft for building web applications and services.</p>
+        </div>
+    </div>
+    <div id="modal48" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('modal48')">&times;</span>
+            <h2>What is the difference between Web Forms and MVC?</h2>
+            <p>Web Forms use a drag-and-drop interface and event-driven programming, while MVC (Model-View-Controller)
+                separates concerns and provides more control over HTML output.</p>
+        </div>
+    </div>
+    <div id="modal49" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('modal49')">&times;</span>
+            <h2>What is a ViewState?</h2>
+            <p>ViewState is used in Web Forms to preserve the state of controls between postbacks.</p>
+        </div>
+    </div>
+    <div id="modal50" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('modal50')">&times;</span>
+            <h2>What is a Master Page?</h2>
+            <p>Master Pages allow for consistent layout and design across multiple pages in a web application.</p>
+        </div>
+    </div>
+    <div id="modal51" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('modal51')">&times;</span>
+            <h2>What is a Web.config file?</h2>
+            <p>Web.config is an XML file used to configure settings for an ASP.NET application, such as connection
+                strings and authentication.</p>
+        </div>
+    </div>
+    <div id="modal52" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('modal52')">&times;</span>
+            <h2>What is the difference between ASP.NET Web API and ASP.NET MVC?</h2>
+            <p>ASP.NET Web API is designed for building HTTP services and is used to expose data to various clients,
+                while ASP.NET MVC is used for building web applications with a focus on HTML and user interaction.</p>
+        </div>
+    </div>
+    <div id="modal53" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('modal53')">&times;</span>
+            <h2>What is Routing in ASP.NET?</h2>
+            <p>Routing is used to map incoming requests to the appropriate controllers and actions based on URL
+                patterns.</p>
+        </div>
+    </div>
+    <div id="modal54" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('modal54')">&times;</span>
+            <h2>What is dependency injection in ASP.NET Core?</h2>
+            <p>Dependency injection is a design pattern used to achieve Inversion of Control (IoC) by injecting
+                dependencies into an object, promoting loose coupling and enhancing testability.</p>
+        </div>
+    </div>
+    <div id="modal55" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('modal55')">&times;</span>
+            <h2>What is an ActionResult?</h2>
+            <p>ActionResult is a base class in ASP.NET MVC that represents the result of an action method, including
+                types such as ViewResult, JsonResult, and RedirectResult.</p>
+        </div>
+    </div>
+    <div id="modal56" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('modal56')">&times;</span>
+            <h2>What are Filters in ASP.NET MVC?</h2>
+            <p>Filters are used to execute code before or after an action method runs, including authorization filters,
+                action filters, result filters, and exception filters.</p>
+        </div>
+    </div>
+    <div id="modal57" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('modal57')">&times;</span>
+            <h2>What is Entity Framework?</h2>
+            <p>Entity Framework is an ORM (Object-Relational Mapper) that provides a set of tools and services for
+                working with databases in a .NET application using object-oriented programming.</p>
+        </div>
+    </div>
+    <div id="modal58" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('modal58')">&times;</span>
+            <h2>What is the difference between @Html.BeginForm and @Html.Form?</h2>
+            <p>@Html.BeginForm generates an opening form tag with options for method, action, and other attributes,
+                while @Html.Form is a helper method that does not include these options.</p>
+        </div>
+    </div>
+    <div id="modal59" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('modal59')">&times;</span>
+            <h2>What is Razor?</h2>
+            <p>Razor is a markup syntax used in ASP.NET for creating dynamic web pages with C# and HTML. It allows for
+                embedding C# code within HTML to generate content.</p>
+        </div>
+    </div>
+    <div id="modal60" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('modal60')">&times;</span>
+            <h2>What is an ASP.NET Core Middleware?</h2>
+            <p>Middleware components are used to handle requests and responses in ASP.NET Core applications. They form
+                the request pipeline and can perform tasks such as authentication, logging, and exception handling.</p>
+        </div>
+    </div>
+    <div id="modal61" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('modal61')">&times;</span>
+            <h2>What is Tag Helper in ASP.NET Core?</h2>
+            <p>Tag Helpers are used to add server-side functionality to HTML elements, making it easier to generate
+                dynamic HTML content and perform actions like form submission and validation.</p>
+        </div>
+    </div>
+    <div id="modal62" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('modal62')">&times;</span>
+            <h2>What is a Partial View?</h2>
+            <p>A Partial View is a reusable view component that can be used within other views to encapsulate part of a
+                page's UI.</p>
+        </div>
+    </div>
+    <div id="modal63" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('modal63')">&times;</span>
+            <h2>What is the difference between a View and a Partial View?</h2>
+            <p>A View represents a complete page, while a Partial View represents a portion of a page that can be reused
+                within different views.</p>
+        </div>
+    </div>
+    <div id="modal64" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('modal64')">&times;</span>
+            <h2>What is ASP.NET Core Identity?</h2>
+            <p>ASP.NET Core Identity is a membership system that provides functionality for user authentication and
+                authorization in ASP.NET Core applications.</p>
+        </div>
+    </div>
+    <div id="modal65" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('modal65')">&times;</span>
+            <h2>What is a Controller in ASP.NET MVC?</h2>
+            <p>A Controller is a class that handles user requests, interacts with the model, and returns a response. It
+                acts as the intermediary between the View and the Model.</p>
+        </div>
+    </div>
+    <div id="modal66" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('modal66')">&times;</span>
+            <h2>What are View Components?</h2>
+            <p>View Components are similar to partial views but are more powerful. They can contain logic and are used
+                to encapsulate reusable parts of a view with more complex rendering capabilities.</p>
+        </div>
+    </div>
+    <div id="modal67" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('modal67')">&times;</span>
+            <h2>What is the difference between a View Component and a Partial View?</h2>
+            <p>A View Component is a reusable component with logic that can render complex content, while a Partial View
+                is a simpler, reusable piece of HTML markup.</p>
+        </div>
+    </div>
+    <div id="modal68" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('modal68')">&times;</span>
+            <h2>What is the Startup class in ASP.NET Core?</h2>
+            <p>The Startup class is used to configure services and the application request pipeline in an ASP.NET Core
+                application. It includes methods like ConfigureServices and Configure to set up the application's
+                services and middleware.</p>
+        </div>
+    </div>
+    <div id="modal69" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('modal69')">&times;</span>
+            <h2>What is the role of a ViewModel?</h2>
+            <p>A ViewModel is a class that provides the data needed by a view, combining data from multiple sources into
+                a single model that the view can use to render the UI.</p>
+        </div>
+    </div>
+
+
+    <!-- ASP.Net MVC -->
+
+    <!-- Modals for Additional Questions -->
+    <div id="modal71" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('modal71')">&times;</span>
+            <h2>What is a Partial View in ASP.NET MVC?</h2>
+            <p>A Partial View is a reusable component that can be included in other views to encapsulate part of the UI.
+            </p>
+        </div>
+    </div>
+    <div id="modal72" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('modal72')">&times;</span>
+            <h2>What is the difference between HtmlHelper and Html.Partial in ASP.NET MVC?</h2>
+            <p>HtmlHelper is used to create HTML elements with server-side code, while Html.Partial is used to render a
+                partial view.</p>
+        </div>
+    </div>
+    <div id="modal73" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('modal73')">&times;</span>
+            <h2>What is Model Binding in ASP.NET MVC?</h2>
+            <p>Model Binding is the process of mapping HTTP request data to action method parameters or model
+                properties.</p>
+        </div>
+    </div>
+    <div id="modal74" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('modal74')">&times;</span>
+            <h2>What are Action Filters in ASP.NET MVC?</h2>
+            <p>Action Filters are used to execute code before or after an action method executes, such as logging or
+                authorization.</p>
+        </div>
+    </div>
+    <div id="modal75" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('modal75')">&times;</span>
+            <h2>What is a ViewModel?</h2>
+            <p>A ViewModel is a class that provides data from multiple sources to the view and is used to create a
+                strong, type-safe representation of data.</p>
+        </div>
+    </div>
+    <div id="modal76" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('modal76')">&times;</span>
+            <h2>What is the purpose of the `@Html.RenderAction` method?</h2>
+            <p>The `@Html.RenderAction` method is used to invoke an action method from a view and render its result,
+                often used for rendering partial views.</p>
+        </div>
+    </div>
+    <div id="modal77" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('modal77')">&times;</span>
+            <h2>What is a Route Constraint in ASP.NET MVC?</h2>
+            <p>A Route Constraint is used to restrict the routes based on a specific condition, such as a parameter
+                value or data type.</p>
+        </div>
+    </div>
+    <div id="modal78" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('modal78')">&times;</span>
+            <h2>What are the different types of Action Results in ASP.NET MVC?</h2>
+            <p>Common Action Results include ViewResult, PartialViewResult, RedirectToRouteResult, JsonResult, and
+                ContentResult.</p>
+        </div>
+    </div>
+    <div id="modal79" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('modal79')">&times;</span>
+            <h2>How does ASP.NET MVC handle errors?</h2>
+            <p>ASP.NET MVC handles errors using Exception Filters, custom error pages, and global error handling in the
+                Application_Error method.</p>
+        </div>
+    </div>
+    <div id="modal80" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('modal80')">&times;</span>
+            <h2>What is the purpose of the `ViewBag` in ASP.NET MVC?</h2>
+            <p>ViewBag is a dynamic object that allows passing data from a controller to a view without needing a
+                strongly-typed model.</p>
+        </div>
+    </div>
+    <div id="modal81" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('modal81')">&times;</span>
+            <h2>What is `TempData` in ASP.NET MVC?</h2>
+            <p>TempData is used to store data that needs to be available for a single request, often used for redirect
+                scenarios.</p>
+        </div>
+    </div>
+    <div id="modal82" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('modal82')">&times;</span>
+            <h2>What is `ViewData` in ASP.NET MVC?</h2>
+            <p>ViewData is a dictionary used to pass data from a controller to a view, accessible using string keys.</p>
+        </div>
+    </div>
+    <div id="modal83" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('modal83')">&times;</span>
+            <h2>What is `ActionLink` in ASP.NET MVC?</h2>
+            <p>ActionLink is a helper method used to create hyperlinks that navigate to specific action methods within
+                controllers.</p>
+        </div>
+    </div>
+    <div id="modal84" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('modal84')">&times;</span>
+            <h2>What is the `HttpPost` attribute used for in ASP.NET MVC?</h2>
+            <p>The `HttpPost` attribute specifies that an action method should only handle POST requests.</p>
+        </div>
+    </div>
+    <div id="modal85" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('modal85')">&times;</span>
+            <h2>What is `Html.BeginForm` used for in ASP.NET MVC?</h2>
+            <p>`Html.BeginForm` is used to create an HTML form with a specified action and method for submitting data to
+                the server.</p>
+        </div>
+    </div>
+    <div id="modal86" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('modal86')">&times;</span>
+            <h2>What is `Html.RenderPartial` used for?</h2>
+            <p>`Html.RenderPartial` is used to render a partial view directly to the response output stream, improving
+                performance.</p>
+        </div>
+    </div>
+    <div id="modal87" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('modal87')">&times;</span>
+            <h2>What is `Html.Raw` used for in ASP.NET MVC?</h2>
+            <p>`Html.Raw` is used to render raw HTML content without encoding, useful for inserting HTML tags directly
+                into views.</p>
+        </div>
+    </div>
+    <div id="modal88" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('modal88')">&times;</span>
+            <h2>What is `ModelState` in ASP.NET MVC?</h2>
+            <p>ModelState is a collection of state information about the model, including validation errors, used to
+                keep track of errors and values submitted by the user.</p>
+        </div>
+    </div>
+    <div id="modal89" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('modal89')">&times;</span>
+            <h2>What is the `IActionFilter` interface?</h2>
+            <p>The `IActionFilter` interface allows you to define code that executes before or after an action method
+                executes, providing a way to implement custom filtering logic.</p>
+        </div>
+    </div>
+    <div id="modal90" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('modal90')">&times;</span>
+            <h2>What is `@Html.EditorFor` used for in ASP.NET MVC?</h2>
+            <p>`@Html.EditorFor` generates an HTML input element for a model property based on its data type and
+                metadata, making it easier to create forms.</p>
+        </div>
+    </div>
+    <div id="modal91" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('modal91')">&times;</span>
+            <h2>What is the `@Html.DisplayFor` method?</h2>
+            <p>`@Html.DisplayFor` renders the value of a model property using a default or custom display template,
+                providing a way to display data in views.</p>
+        </div>
+    </div>
+    <div id="modal92" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('modal92')">&times;</span>
+            <h2>What is the purpose of the `@Model` keyword?</h2>
+            <p>`@Model` represents the strongly-typed model passed to a view, allowing access to model properties and
+                methods in the view.</p>
+        </div>
+    </div>
+    <div id="modal93" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('modal93')">&times;</span>
+            <h2>What is the `ActionResult` class?</h2>
+            <p>The `ActionResult` class is the base class for all action results, providing a way to return different
+                types of responses from an action method.</p>
+        </div>
+    </div>
+    <div id="modal94" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('modal94')">&times;</span>
+            <h2>What is `Url.Action` in ASP.NET MVC?</h2>
+            <p>`Url.Action` generates a URL for a specified action method, making it easier to create links to different
+                parts of the application.</p>
+        </div>
+    </div>
+    <div id="modal95" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal('modal95')">&times;</span>
+            <h2>What is the role of `Html.BeginForm`?</h2>
+            <p>`Html.BeginForm` generates the opening tag of an HTML form and is used to specify the action and method
+                for the form submission.</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Toggle functionality for sections
+            document.querySelectorAll('.section h2').forEach(sectionHeader => {
+                sectionHeader.addEventListener('click', function () {
+                    const content = this.nextElementSibling;
+                    content.style.display = content.style.display === 'none' || content.style.display === '' ? 'block' : 'none';
+                });
+            });
+
+            // Search functionality
+            document.getElementById('searchInput').addEventListener('input', function () {
+                const searchTerm = this.value.toLowerCase();
+                document.querySelectorAll('.section').forEach(section => {
+                    const headerText = section.querySelector('h2').textContent.toLowerCase();
+                    section.style.display = headerText.includes(searchTerm) ? 'block' : 'none';
+                });
+            });
+
+            // Modal functionality
+            const modals = document.querySelectorAll('.modal');
+            const triggers = document.querySelectorAll('.modal-trigger');
+            const closeButtons = document.querySelectorAll('.modal-close');
+
+            // Open modal
+            triggers.forEach(trigger => {
+                trigger.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    const modalId = trigger.getAttribute('data-modal');
+                    openModal(modalId);
+                });
+            });
+
+            // Close modal when clicking the close button
+            closeButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const modalId = button.getAttribute('data-modal');
+                    closeModal(modalId);
+                });
+            });
+
+            // Close modal when clicking outside of the modal content
+            window.addEventListener('click', (event) => {
+                modals.forEach(modal => {
+                    if (event.target.classList.contains('modal')) {
+                        closeModal(modal.id);
+                    }
+                });
+            });
+
+            // Navigation functionality
+            const links = document.querySelectorAll("nav ul li a");
+            const sections = document.querySelectorAll(".section");
+
+            links.forEach(link => {
+                link.addEventListener("click", function (event) {
+                    event.preventDefault();
+                    const sectionId = this.getAttribute("href").substring(1); // Remove the '#' from href
+
+                    // Toggle active link
+                    links.forEach(l => l.classList.remove("active-link"));
+                    this.classList.add("active-link");
+
+                    // Toggle section visibility
+                    sections.forEach(section => {
+                        const content = section.querySelector(".section-content");
+                        if (section.id === sectionId) {
+                            content.classList.toggle("active");
+                        } else {
+                            content.classList.remove("active");
+                        }
+                    });
+                });
+            });
+        });
+
+        // Functions to open and close modals
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.style.display = 'flex';
+        }
+
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.style.display = 'none';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const carousel = document.querySelector('.carousel');
+            const slides = document.querySelectorAll('.carousel-slide');
+            const totalSlides = slides.length;
+            let currentIndex = 0;
+
+            // Show the next slide
+            function showNextSlide() {
+                currentIndex = (currentIndex + 1) % totalSlides;
+                updateCarousel();
+            }
+
+            // Show the previous slide
+            function showPrevSlide() {
+                currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+                updateCarousel();
+            }
+
+            // Update the carousel transform to show the current slide
+            function updateCarousel() {
+                carousel.style.transform = `translateX(-${currentIndex * 100}%)`;
+            }
+
+            // Event listeners for buttons
+            document.querySelector('.carousel-button.next').addEventListener('click', showNextSlide);
+            document.querySelector('.carousel-button.prev').addEventListener('click', showPrevSlide);
+
+            // Automatic sliding with animation
+            setInterval(showNextSlide, 5000); // Change slide every 5 seconds
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const carousel = document.querySelector('.carousel');
+            const slides = document.querySelectorAll('.carousel-slide');
+            const totalSlides = slides.length;
+            let currentIndex = 0;
+
+            // Show the next slide
+            function showNextSlide() {
+                currentIndex = (currentIndex + 1) % totalSlides;
+                updateCarousel();
+            }
+
+            // Show the previous slide
+            function showPrevSlide() {
+                currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+                updateCarousel();
+            }
+
+            // Update the carousel transform to show the current slide
+            function updateCarousel() {
+                carousel.style.transform = `translateX(-${currentIndex * 100}%)`;
+            }
+
+            // Event listeners for buttons
+            document.querySelector('.carousel-button.next').addEventListener('click', showNextSlide);
+            document.querySelector('.carousel-button.prev').addEventListener('click', showPrevSlide);
+
+            // Automatic sliding with animation
+            setInterval(showNextSlide, 5000); // Change slide every 5 seconds
+        });
+        
+
+        document.addEventListener('DOMContentLoaded', () => {
+    const hamburgerBtn = document.getElementById('hamburgerBtn');
+    const sidebar = document.getElementById('sidebar');
+    const closeSidebar = document.getElementById('closeSidebar');
+
+    hamburgerBtn.addEventListener('click', () => {
+        sidebar.classList.toggle('show');
+    });
+
+    closeSidebar.addEventListener('click', () => {
+        sidebar.classList.remove('show');
+    });
+
+    // Close sidebar when a link is clicked
+    sidebar.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+            sidebar.classList.remove('show');
+        });
+    });
+});
+
+function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('navbarOverlay');
+            sidebar.classList.toggle('show');
+            overlay.style.display = sidebar.classList.contains('show') ? 'block' : 'none';
+        }
+
+        function closeSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('navbarOverlay');
+            sidebar.classList.remove('show');
+            overlay.style.display = 'none';
+        }
+    </script>
+
+
+</body>
+
+</html>
