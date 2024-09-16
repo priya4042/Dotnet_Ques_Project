@@ -549,19 +549,19 @@ margin-top: 20px;
 .new-cards-container {
     display: flex;
     flex-wrap: wrap;
-    gap: 20px;
+    gap: 198px;
     justify-content: center;
-    margin: 20px;
+    margin: 27px 246px;
 }
 
 .new-card {
     background: #cbe9e4;
     border: 1px solid #ddd;
-    border-radius: 8px;
+    border-radius: 32px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    width: calc(16% - 20px); /* Adjust width based on the number of cards per row */
+    width: calc(23% - 20px);
 }
 
 .new-card img {
