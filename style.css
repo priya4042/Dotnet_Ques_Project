@@ -620,7 +620,7 @@ margin-top: 20px;
 
         /* Modern Contact Us Section */
         .contact-section {
-            background: linear-gradient(145deg,#c1a1a1, #49705a );
+            /* background: linear-gradient(145deg,#c1a1a1, #49705a ); */
             padding: 60px 20px;
             text-align: center;
             position: relative;
@@ -748,7 +748,7 @@ margin-top: 20px;
 
  /* Footer section */
  .footer {
-    background-color: #1a1616;
+   
     color: #ffffff;
     padding: 40px 0;
     text-align: center;
@@ -763,7 +763,6 @@ margin-top: 20px;
     left: 0;
     width: 100%;
     height: 50px;
-    background: #4b4848;
     border-radius: 50%;
     transition: height 0.5s ease-in-out;
 }
