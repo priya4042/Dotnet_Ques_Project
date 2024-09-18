@@ -1,17 +1,9 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #91b4b4;
+    background: linear-gradient(to right, #dbd0d0, #407a75);
     margin: 0;
     padding: 0;
 }
-
-body {
-font-family: Arial, sans-serif;
-background-color: #b1cacf;
-margin: 0;
-padding: 0;
-}
-
 
 nav {
 background-color: #525a63;
@@ -173,7 +165,7 @@ h1 {
 }
 
 .section {
-    background-color: #53696d;
+    background: linear-gradient(to right,#407a75, #d1dbd0);
     padding: 15px;
     margin: 10px auto;
     border-radius: 8px;
@@ -403,7 +395,7 @@ align-items: center; /* Center content vertically */
 
 /* Cards */
 .cards {
-background-color: #d0e1e0;
+background: linear-gradient(to right, #d1dbd0, #40607a);
 border: 1px solid #ddd;
 border-radius: 8px;
 width: 994px; /* Fixed width */
@@ -549,60 +541,86 @@ margin-top: 20px;
 .new-cards-container {
     display: flex;
     flex-wrap: wrap;
-    gap: 198px;
+    gap: 20px; /* Reduced gap for better alignment */
     justify-content: center;
-    margin: 27px 246px;
+    padding: 20px; /* Added padding to give some space around the container */
+    margin: 0 auto; /* Center the container */
 }
 
+/* Card Styling */
 .new-card {
-    background: #cbe9e4;
-    border: 1px solid #ddd;
-    border-radius: 32px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background: linear-gradient(145deg, #49705a, #f1f1f1); /* Light gradient background for a fresh look */
+    border: none;
+    border-radius: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    width: calc(23% - 20px);
+    width: calc(25% - 20px); /* Set width based on percentage */
+    margin: 10px; /* Add some margin for better spacing */
+    text-align: center; /* Center the text in the cards */
 }
 
+/* Card Image Styling */
 .new-card img {
     width: 100%;
-    height: auto;
+    height: 180px; /* Set a fixed height to make the cards uniform */
+    object-fit: cover; /* Ensure the image covers the area without distortion */
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
 }
 
+/* Card Content Styling */
 .new-card-content {
-    padding: 15px;
+    padding: 20px;
+    color: #333; /* Darker text for better readability */
 }
 
 .new-card-content h3 {
-    margin-top: 0;
-    font-size: 1.2em;
+    font-size: 1.4em; /* Slightly larger for emphasis */
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #00796b; /* Teal color for headings */
 }
 
 .new-card-content p {
-    margin: 10px 0;
+    font-size: 1em;
+    margin: 0;
+    line-height: 1.5;
+    color: #555;
 }
 
+/* Card Hover Effects */
 .new-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    transform: translateY(-12px); /* Raise the card on hover */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* Increase shadow for depth */
 }
 
-/* Responsive styles */
+/* Responsive Styles */
+@media (max-width: 1200px) {
+    .new-card {
+        width: calc(33% - 20px); /* Adjust for medium screens */
+    }
+}
+
 @media (max-width: 768px) {
     .new-card {
-        width: calc(50% - 20px);
+        width: calc(50% - 20px); /* Adjust for tablet screens */
     }
 }
 
 @media (max-width: 480px) {
     .new-card {
-        width: 100%;
+        width: 100%; /* Full width for mobile screens */
+    }
+
+    .new-card img {
+        height: 150px; /* Reduce image height for small screens */
     }
 }
 
         /* Modern Contact Us Section */
         .contact-section {
-            background: linear-gradient(135deg, #c7e4eb, #e2e2e2);
+            background: linear-gradient(145deg,#c1a1a1, #49705a );
             padding: 60px 20px;
             text-align: center;
             position: relative;
@@ -633,7 +651,7 @@ margin-top: 20px;
         .contact-form {
             max-width: 700px;
             margin: 0 auto;
-            background: #4a5454;
+            background: linear-gradient(145deg, #49705a, #c1a1a1);
             border-radius: 10px;
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
             padding: 30px;
@@ -662,13 +680,13 @@ margin-top: 20px;
 
         .contact-form input:focus,
         .contact-form textarea:focus {
-            border-color: #007bff;
+            border-color: #88a9cc;
             box-shadow: 0 0 8px rgba(0, 123, 255, 0.4);
             outline: none;
         }
 
         .contact-form button {
-            background: linear-gradient(135deg, #007bff, #0056b3);
+            background: linear-gradient(135deg, #9aa5b1, #0081b3);
             color: #fff;
             border: none;
             padding: 15px;
@@ -681,7 +699,7 @@ margin-top: 20px;
         }
 
         .contact-form button:hover {
-            background: linear-gradient(135deg, #0056b3, #003d7a);
+            background: linear-gradient(135deg, #646669, #003d7a);
             transform: scale(1.05);
         }
 
